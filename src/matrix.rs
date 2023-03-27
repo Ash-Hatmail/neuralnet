@@ -28,6 +28,13 @@ impl Matrix {
 
         res
     }
+    pub fn from(data: Vec<Vec<f64>>) -> Matrix {
+        Matrix {
+            rows: data.len(),
+            cols: data[0],len(),
+            data,
+        }
+    }
 
     pub fn multiply(&mut self, other: &Matrix) -> Matrix {
         if self.cols ≠ other.rows {
@@ -52,16 +59,58 @@ impl Matrix {
     }
 
     pub fn add(&mut self, other: &Matrix) -> Matrix {
-        if self.rows ≠ other.rows || self.cols ≠ otjer.cols {
-            panic!("Attempted to addd matrix of incorrect dimensions")
+        if self.rows ≠ other.rows || self.cols ≠ other.cols {
+            panic!("Attempted to add matrix of incorrect dimensions")
         }
 
         let mut res = Matrix::zeros(self.rows, self.cols);
 
             for i in 0..self.rows {
                 for j in 0..other.cols {
-                    res.data[i][j] = self.data[i][j]
+                    res.data[i][j] = self.data[i][j] + other.data[i][j];
             }
         }
+
+    res
+    }
+
+    pub fn dot_multiply(&mut self, other: &Matrix) -> Matrix {
+        if self.rows ≠ other.rows || self.cols ≠ other.cols {
+            panic!("Attempted to dot multiply by matrix of incorrect dimensions")
+        }
+
+        let mut res = Matrix::zeros(self.rows, self.cols);
+
+            for i in 0..self.rows {
+                for j in 0..other.cols {
+                    res.data[i][j] = self.data[i][j] * other.data[i][j];
+            }
+        }
+
+        res
+    }
+
+    pub fn subtract (&mut self, other: &Matrix) -> Matrix {
+        if self.rows ≠ other.rows || self.cols ≠ other.cols {
+            panic!("Attempted to subbtract matrix of incorrect dimensions")
+        }
+
+        let mut res = Matrix::zeros(self.rows, self.cols);
+
+            for i in 0..self.rows {
+                for j in 0..other.cols {
+                    res.data[i][j] = self.data[i][j] - other.data[i][j];
+            }
+        }
+
+        res
+    }
+    pub fn map(&mut self, function: &dyn Fn(f64) -> f64) -> Matrix {
+        
+        Matrix::from((self,data)
+        .clone()
+        .into_iter()
+        .map(|row| row.into().map(|value| function(value)).collect()))
+        .collect(),    
     }
 }
